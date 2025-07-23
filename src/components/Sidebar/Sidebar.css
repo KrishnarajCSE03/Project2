@@ -1,0 +1,206 @@
+/* ======= SIDEBAR BASE STYLES ======= */
+.sidebar {
+  height: 100vh;
+  background-color: #1f2a40;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1200;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: width 0.3s ease-in-out; /* Added smooth width transition */
+  width: 260px;
+  overflow: hidden;
+}
+
+/* Collapsed state for desktop */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* Sidebar toggle icon */
+.sidebar-toggle {
+  font-size: 1.7rem;
+  padding: 1rem;
+  cursor: pointer;
+  color: #fff;
+  display: flex;
+  justify-content: flex-end;
+  transition: background 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background-color: #2d3a55;
+}
+
+/* ======= USER INFO SECTION ======= */
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hide user info text but keep avatar visible on collapse */
+.sidebar.collapsed .sidebar-user .user-info {
+  opacity: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Keep avatar fully visible and in place */
+.sidebar.collapsed .sidebar-user .user-avatar {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.user-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* ======= MENU ITEMS ======= */
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0.85rem 1.5rem;
+  margin-bottom: 20px;
+  color: #ddd;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.3s ease;
+  border-left: 4px solid transparent;
+  position: relative;
+}
+
+.menu-item:hover {
+  background-color: #2d3a55;
+  color: #fff;
+  border-left: 4px solid #3c7be3;
+}
+
+.menu-item.active {
+  background-color: #2d3a55;
+  color: #fff;
+  border-left: 4px solid #fff;
+}
+
+.menu-item .icon {
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  min-width: 20px;
+  display: flex;
+  justify-content: center;
+  transition: margin-right 0.3s ease; /* Smooth margin change */
+}
+
+.menu-item span {
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Animate menu text */
+  white-space: nowrap;
+}
+
+/* ======= COLLAPSED STYLES ======= */
+/* Hide only label spans, keep icons visible */
+.sidebar.collapsed .menu-item span:not(.icon) {
+  display: inline-block; /* Keep display so opacity works */
+  opacity: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
+}
+
+.sidebar.collapsed .menu-item .icon {
+  margin-right: 0;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ======= TOOLTIP ON HOVER (Collapsed Only) ======= */
+.sidebar.collapsed .menu-item:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1500;
+  font-size: 0.75rem;
+  margin-left: 10px;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+/* ======= LOGOUT BUTTON ======= */
+.logout-item {
+  cursor: pointer;
+}
+
+/* ======= MOBILE STYLES ======= */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -100%;
+    width: 80%;
+    max-width: 280px;
+    transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar.collapsed {
+    width: 80%;
+  }
+
+  .sidebar-backdrop {
+    display: none;
+  }
+
+  .sidebar.open ~ .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1100;
+  }
+}
